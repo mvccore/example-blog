@@ -1,0 +1,17 @@
+<?php
+	/** @var $this \MvcCore\View */
+	/** @var $comment \App\Models\Comment */
+?>
+
+<a 
+	class="head-btn btn btn-wide btn-left-arrow btn-no-visiting" 
+	href="<?=$url(':Index')?>"><span><b>Back to list</b></span></a>
+
+<h1><?=$title?></h1>
+
+Active: <?=($comment->Active ? 'Yes' : 'No')?><br />
+Created: <?=$this->FormatDate($comment->Created)?><br />
+User: <?=$comment->FullName ?><br />
+Title: <code><?=$comment->Title?></code><br />
+Content: <br />
+<textarea cols="115" rows="20"><?=$comment->Content?></textarea>

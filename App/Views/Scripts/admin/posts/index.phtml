@@ -1,0 +1,68 @@
+<?php
+	/** @var $this \MvcCore\View */
+	/** @var $posts \App\Models\Post[] */
+?>
+
+<a
+	class="head-btn btn btn-wide btn-no-visiting"
+	href="<?=$url(':Create')?>">
+	<span>
+		<b>New post</b>
+	</span>
+</a>
+
+<h1><?=$title?></h1>
+
+<?php if (!$posts): ?>
+	<p>No blog posts in database. To create, click to 'New post' button.</p>
+
+<?php else: ?>
+	<table class="posts-items theme">
+		<thead>
+			<tr>
+				<th class="right">
+					<a href="<?=$this->Url('self',['order'=>'id','dir'=>$dir])?>">Id</a>
+				</th>
+				<th>
+					<a href="<?=$this->Url('self',['order'=>'title','dir'=>$dir])?>">Title</a>, Perex
+				</th>
+				<th class="right">
+					<a href="<?=$this->Url('self',['order'=>'created','dir'=>$dir])?>">Created</a>, 
+					<a href="<?=$this->Url('self',['order'=>'updated','dir'=>$dir])?>">Updated</a>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($posts as $id => $post): ?>
+			<tr>
+				<td class="right">
+					<?=$post->Id?>
+				</td>
+				<td class="wrap">
+					<a 
+						title="<?=$post->Title?>"
+						href="<?=$url(':Edit', ['id' => $post->Id])?>">
+						<?=$this->Truncate($post->Title, 80)?>
+					</a>
+					<div class="perex"><?php echo $post->Perex 
+					   ? $this->Truncate($post->Perex, 150)
+					   : $this->Truncate($post->Content, 150);
+					?></div>
+				</td>
+				<td class="right">
+					<?=$this->FormatDate($post->Created)?><br />
+					<?=$this->FormatDate($post->Updated)?>
+				</td>
+				<td class="center">
+					<form class="delete" action="<?=$url(':Delete', ['absolute' => TRUE])?>" method="post">
+						<input type="hidden" name="<?=$csrfName?>" value="<?=$csrfValue?>" />
+						<input type="hidden" name="id" value="<?=$post->Id?>" />
+						<input type="submit" value="Delete" />
+					</form>
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+<?php endif; ?>

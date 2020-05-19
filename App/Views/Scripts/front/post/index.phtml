@@ -1,0 +1,52 @@
+<?php
+	/** @var $this \MvcCore\View */
+	/** @var $post \App\Models\Post */
+	/** @var $comment \App\Models\Comment */
+?>
+
+<h1><?=$post->Title?></h1>
+
+<?php if ($post->Updated > $post->Created): ?>
+	<i>updated: <?=$this->FormatDate($post->Updated)?></i>,
+<?php endif; ?>
+<i>created: <?=$this->FormatDate($post->Created)?></i>
+
+<p><?=$post->Content ?></p>
+
+<hr />
+<?php if ($this->user): ?>
+	<h2>Add Comment</h2>
+	<?=$commentForm?>
+<?php else: ?>
+	<p>
+		To add any comments, you have to 
+		<a target="_blank" href="<?=$registerLink?>">register</a> or 
+		<a target="_blank" href="<?=$loginLink?>">login</a> first.
+	</p>
+<?php endif; ?>
+
+<hr />
+<h2>Comments</h2>
+
+<?php if (!$comments): ?>
+	<p>There are no comments yet.</p>
+<?php else: ?>
+
+	<div class="comments">
+		<?php foreach ($comments as $comment): ?>
+			<div class="comment" id="#comment-<?=$comment->Id?>">
+				<div>
+					<?php if ($comment->AvatarUrl): ?>
+						<img src="<?=$comment->AvatarUrl?>" 
+							 height="30" width="auto" 
+							 alt="<?=$comment->UserName?>" />
+					<?php endif; ?>
+					<i><?=$this->FormatDateTime($comment->Created)?></i> by <b><?=$comment->UserName?></b>
+				</div>
+				<h4><?=$comment->Title?></h4>
+				<p><?=$comment->Content?></p>
+			</div>
+		<?php endforeach; ?>
+	</div>
+
+<?php endif; ?>

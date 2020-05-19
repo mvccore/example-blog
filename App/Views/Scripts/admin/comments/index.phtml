@@ -1,0 +1,93 @@
+<?php
+	/** @var $this \MvcCore\View */
+	/** @var $comments \App\Models\Comment[] */
+?>
+
+<h1><?=$title?></h1>
+
+<?php if (!$comments): ?>
+	<p>No blog comments in database.</p>
+
+<?php else: ?>
+	<table class="comments-items theme">
+		<thead>
+			<tr>
+				<th class="right">
+					<a href="<?=$this->Url('self',
+						['order'=>'id','dir'=>$dir]
+					)?>">Id</a>
+				</th>
+				<th>
+					<a href="<?=$this->Url('self',
+						['order'=>'id_post','dir'=>$dir]
+					)?>">Post</a>
+				</th>
+				<th>
+					<a href="<?=$this->Url('self',
+						['order'=>'full_name','dir'=>$dir]
+					)?>">User</a>
+				</th>
+				<th>
+					<a href="<?=$this->Url('self',
+						['order'=>'title','dir'=>$dir]
+					)?>">Title</a>
+				</th>
+				<th>Content</th>
+				<th>
+					<a href="<?=$this->Url('self',
+						['order'=>'created','dir'=>$dir]
+					)?>">Created</a>
+				</th>
+				<th>
+					<a href="<?=$this->Url('self',
+						['order'=>'active','dir'=>$dir]
+					)?>">Active</a>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($comments as $id => $comment): ?>
+			<tr>
+				<td class="right">
+					<?=$comment->Id?>
+				</td>
+				<td class="right">
+					<a href="<?=$this->Url('self',['filter'=>'id_post','value'=>$comment->IdPost])?>"
+					><?=$comment->IdPost?></a>
+				</td>
+				<td class="left nowrap">
+					<a href="<?=$this->Url('self',['filter'=>'user_name','value'=>$comment->UserName])?>"
+					><?=$comment->FullName?></a>
+				</td>
+				<td class="left nowrap">
+					<a 
+					   title="<?=$comment->Title?>" 
+					   href="<?=$url(':Detail', ['id'	=> $comment->Id])?>"
+					>
+						<?=$this->Truncate($comment->Title, 30)?>
+					</a>
+				</td>
+				<td class="wrap">
+					<?=$this->Truncate($comment->Content, 100)?>
+				</td>
+				<td class="left">
+					<?=$this->FormatDate($comment->Created)?>
+				</td>
+				<td class="left nowrap">
+					<a href="<?=$this->Url('self',['filter'=>'active','value'=>$comment->Active])?>"
+					><?=($comment->Active ? 'Yes' : 'No' )?></a>
+					(<form class="activation" action="<?=$url(':Activation', ['absolute' => TRUE])?>" method="post">
+						<input type="hidden" name="<?=$csrfName?>" value="<?=$csrfValue?>" />
+						<input type="hidden" name="id" value="<?=$comment->Id?>" />
+						<?php if ($comment->Active): ?>
+						<input type="submit" name="deactivate" value="Deactivate" />
+						<?php else: ?>
+						<input type="submit" name="activate" value="Activate" />
+						<?php endif; ?>
+					</form>)
+				</td>
+			</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+<?php endif; ?>
