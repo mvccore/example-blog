@@ -2,15 +2,37 @@
 
 namespace App\Models;
 
-class User extends \MvcCore\Ext\Auths\Basics\User
-{
+use \MvcCore\Ext\Database\{
+	Statement, 
+	Attributes as Attrs
+};
+
+/** 
+ * @connection my57
+ */
+#[Attrs\Connection('my57')]
+class User extends \MvcCore\Ext\Auths\Basics\User {
+
+	use \MvcCore\Ext\Database\Model\Features;
+
+	/**
+	 * @var string|NULL
+	 * @column avatar_url
+	 */
 	protected $avatarUrl = NULL;
 
+	/**
+	 * @param string|NULL $avatarUrl 
+	 * @return \App\Models\User
+	 */
 	public function SetAvatarUrl ($avatarUrl) {
 		$this->avatarUrl = $avatarUrl;
 		return $this;
 	}
 
+	/**
+	 * @return null|string
+	 */
 	public function GetAvatarUrl () {
 		return $this->avatarUrl;
 	}
@@ -72,19 +94,19 @@ class User extends \MvcCore\Ext\Auths\Basics\User
 	 * @return \App\Models\User|NULL
 	 */
 	public static function GetByUserName ($userName) {
-		$sql = implode("\n", [
-			"SELECT *						",
-			"FROM users u					",
-			"WHERE u.user_name = :user_name;",
-		]);
-		$select = self::GetConnection()->prepare($sql);
-		$select->execute([':user_name' => $userName]);
-		$row = $select->fetch(\PDO::FETCH_ASSOC);
-		if (!$row) return NULL;
-		/** @var $user \App\Models\User */
-		$user = (new static)
-			->SetUp($row, \MvcCore\IModel::KEYS_CONVERSION_UNDERSCORES_TO_CAMELCASE, TRUE);
-		return $user;
+		return Statement::Prepare([
+				"SELECT *						",
+				"FROM users u					",
+				"WHERE u.user_name = :user_name;",
+			])
+			->FetchOne([':user_name' => $userName])
+			->ToInstance(
+				get_called_class(),
+				self::PROPS_INHERIT |
+				self::PROPS_PROTECTED |
+				self::PROPS_CONVERT_UNDERSCORES_TO_CAMELCASE | 
+				self::PROPS_INITIAL_VALUES
+			);
 	}
 
 	/**
@@ -92,18 +114,18 @@ class User extends \MvcCore\Ext\Auths\Basics\User
 	 * @return \App\Models\User|NULL
 	 */
 	public static function GetByUserEmail ($email) {
-		$sql = implode("\n", [
+		return Statement::Prepare([
 			"SELECT *				",
 			"FROM users u			",
 			"WHERE u.email = :email;",
-		]);
-		$select = self::GetConnection()->prepare($sql);
-		$select->execute([':email' => $email]);
-		$row = $select->fetch(\PDO::FETCH_ASSOC);
-		if (!$row) return NULL;
-		/** @var $user \App\Models\User */
-		$user = (new static)
-			->SetUp($row, \MvcCore\IModel::KEYS_CONVERSION_UNDERSCORES_TO_CAMELCASE, TRUE);
-		return $user;
+			])
+			->FetchOne([':email' => $email])
+			->ToInstance(
+				get_called_class(),
+				self::PROPS_INHERIT |
+				self::PROPS_PROTECTED |
+				self::PROPS_CONVERT_UNDERSCORES_TO_CAMELCASE | 
+				self::PROPS_INITIAL_VALUES
+			);
 	}
 }

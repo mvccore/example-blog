@@ -18,11 +18,11 @@ USE `mvccore_blog`;
 
 -- Exportování struktury pro tabulka mvccore_blog.comments
 CREATE TABLE IF NOT EXISTS `comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `id_post` int(10) NOT NULL,
   `id_user` int(10) NOT NULL,
-  `created` datetime DEFAULT current_timestamp(),
-  `active` tinyint(1) DEFAULT 1,
+  `created` datetime NOT NULL DEFAULT current_timestamp(),
+  `active` tinyint(1) NOT NULL DEFAULT 1,
   `title` varchar(200) NOT NULL,
   `content` text DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -44,7 +44,7 @@ INSERT INTO `comments` (`id`, `id_post`, `id_user`, `created`, `active`, `title`
 
 -- Exportování struktury pro tabulka mvccore_blog.posts
 CREATE TABLE IF NOT EXISTS `posts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `path` varchar(200) NOT NULL,
   `title` varchar(200) NOT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp(),
@@ -68,9 +68,9 @@ INSERT INTO `posts` (`id`, `path`, `title`, `created`, `updated`, `perex`, `cont
 
 -- Exportování struktury pro tabulka mvccore_blog.users
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `active` int(1) NOT NULL DEFAULT 1,
-  `admin` int(1) NOT NULL DEFAULT 0,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `active` tinyint(1) NOT NULL DEFAULT 1,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
   `user_name` varchar(50) NOT NULL,
   `full_name` varchar(100) DEFAULT NULL,
   `email` varchar(200) DEFAULT NULL,

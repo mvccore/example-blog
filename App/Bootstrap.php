@@ -18,6 +18,15 @@ class Bootstrap {
 			$app->SetDebugClass('MvcCore\Ext\Debugs\Tracy');
 		}
 
+		\MvcCore\Ext\Database\Misc\Reflection::SetAttributesAnotations(FALSE);
+
+
+		
+		$cache = \MvcCore\Ext\Caches\Redis::GetInstance([ // `default` connection to:
+			\MvcCore\Ext\ICache::CONNECTION_DATABASE => 'mvccore_blog'
+		]);
+		\MvcCore\Ext\Cache::RegisterStore('redis', $cache, TRUE);
+
 
 		/**
 		 * Uncomment this line before generate any assets into temporary directory, before application
@@ -42,6 +51,9 @@ class Bootstrap {
 
 			// To use custom authentication submitting controller:
 			->SetControllerClass('//App\Controllers\Auth')
+
+			->SetExpirationAuthorization(3600)
+			->SetExpirationIdentity(86400 * 30)
 
 			// To describe basic credentials database structure
 			/*->SetTableStructureForDbUsers('users', [

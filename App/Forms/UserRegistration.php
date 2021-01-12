@@ -15,7 +15,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 	protected $viewScript = 'user-registration';
 
-	protected $enctype = \MvcCore\Ext\Forms\IForm::ENCTYPE_MULTIPART;
+	protected $enctype = \MvcCore\Ext\IForm::ENCTYPE_MULTIPART;
 
 	//protected $csrfEnabled = FALSE;
 

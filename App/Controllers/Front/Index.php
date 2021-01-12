@@ -10,7 +10,7 @@ class Index extends Front {
 	 */
 	public function IndexAction () {
 		$this->view->title = 'Blog';
-
+		
 		$orderDir = $this->GetParam('order', 'a-z', 'desc');
 		$posts = \App\Models\Post::GetAll('created', $orderDir);
 		$this->view->posts = $posts;
@@ -22,7 +22,6 @@ class Index extends Front {
 		$this->view->orderLinkValue = $this->Url(
 			'self', ['order' => $defaultOrder ? 'asc' : 'desc']
 		);
-
 	}
 
 	/**

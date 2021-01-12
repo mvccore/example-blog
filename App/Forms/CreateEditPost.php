@@ -24,8 +24,8 @@ class CreateEditPost extends \MvcCore\Ext\Form
 		return $this;
 	}
 
-	public function Init () {
-		parent::Init();
+	public function Init ($submit = FALSE) {
+		parent::Init($submit);
 
 		$title = (new Fields\Text)
 			->SetName('title')
@@ -47,7 +47,7 @@ class CreateEditPost extends \MvcCore\Ext\Form
 			->SetAutocomplete('off');
 
 		$content = (new Fields\Textarea)
-			->SetName('body')
+			->SetName('content')
 			->SetLabel('Content:')
 			->SetRequired()
 			->SetAutocomplete('off');
@@ -60,18 +60,20 @@ class CreateEditPost extends \MvcCore\Ext\Form
 		$this->AddFields($title, $path, $perex, $content, $send);
 
 		if ($this->post !== NULL) {
+
 			$id = (new Fields\Hidden)
 				->SetName('id')
-				->AddValidators('Number');
+				->AddValidators('IntNumber');
 			$this->AddField($id);
 			
-			$this->SetValues([
-				'id'	=> $this->post->Id,
-				'title' => $this->post->Title,
-				'path'	=> $this->post->Path,
-				'perex' => $this->post->Perex,
-				'body'	=> $this->post->Content,
-			]);
+			if (!$submit && !$this->GetValues()) {
+				$values = $this->post->GetValues(
+					\App\Models\Post::PROPS_PUBLIC |
+					\App\Models\Post::PROPS_CONVERT_PASCALCASE_TO_CAMELCASE, 
+					TRUE
+				);
+				$this->SetValues($values);
+			}
 		}
 
 		return $this;
@@ -83,19 +85,23 @@ class CreateEditPost extends \MvcCore\Ext\Form
 			$this->post = new \App\Models\Post();
 			$this->post->Created = new \DateTime('now');
 		}
-		if ($this->result === \MvcCore\Ext\Forms\IForm::RESULT_SUCCESS) {
+		if ($this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS) {
 			try {
-				$data = (object) $this->values;
-				if (!$data->path) 
-					$data->path = preg_replace(
-						"#[\-]+#", '-', preg_replace("#[^-_a-zA-Z0-9\-]#", '-', $data->title)
+				$data = $this->values;
+				if (!$data['path']) 
+					$data['path'] = preg_replace(
+						"#[\-]+#", '-', preg_replace("#[^-_a-zA-Z0-9\-]#", '-', $data['title'])
 					);
-				$this->post->Title = $data->title;
-				$this->post->Path = $data->path;
-				$this->post->Perex = $data->perex;
-				$this->post->Content = $data->body;
+
+				$this->post->SetValues(
+					$data, 
+					\App\Models\Post::PROPS_PUBLIC | 
+					\App\Models\Post::PROPS_CONVERT_CAMELCASE_TO_PASCALCASE
+				);
 				$this->post->Updated = new \DateTime('now');
+				
 				$this->post->Save();
+
 			} catch (\Exception $e) {
 				\MvcCore\Debug::Log($e);
 				$this->AddError('Error when saving blog post. See more in application log.');

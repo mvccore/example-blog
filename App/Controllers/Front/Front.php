@@ -5,6 +5,11 @@ namespace App\Controllers\Front;
 class Front extends \App\Controllers\Base
 {
 	protected $layout = 'front';
+	
+	public function Init () {
+		parent::Init();
+		$this->application->SetDefaultControllerName('Front\\Index');
+	}
 
 	public function PreDispatch () {
 		parent::PreDispatch();

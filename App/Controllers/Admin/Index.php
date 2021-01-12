@@ -2,8 +2,8 @@
 
 namespace App\Controllers\Admin;
 
-class Index extends Admin
-{
+class Index extends Admin {
+
 	/**
 	 * Render not found action.
 	 * @return void

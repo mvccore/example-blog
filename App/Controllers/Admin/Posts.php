@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use \App\Models,
-	\MvcCore\Ext\Forms\IForm;
+	\MvcCore\Ext\IForm;
 
 class Posts extends Index {
 
@@ -23,7 +23,7 @@ class Posts extends Index {
 		if ($id !== NULL)
 			$this->post = Models\Post::GetById(intval($id));
 		if (!$this->post && $this->actionName == 'edit')
-			$this->renderNotFound();
+			$this->RenderNotFound();
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Posts extends Index {
 			$detailForm->SetErrorUrl($this->Url(':Edit', ['id' => $this->post->Id, 'absolute' => TRUE]));
 		}
 		list($result) = $detailForm->Submit();
-		if ($result === IForm::RESULT_SUCCESS)
+		if ($result === IForm::RESULT_SUCCESS) 
 			$detailForm->ClearSession();
 		$detailForm->SubmittedRedirect();
 	}
@@ -123,7 +123,7 @@ class Posts extends Index {
 	/**
 	 * Create empty form, where to store and manage CSRF
 	 * tokens for delete links in posts list.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	protected function getVirtualDeleteForm () {
 		return (new \MvcCore\Ext\Form($this))

@@ -23,7 +23,7 @@ class Comments extends Index
 		if ($id !== NULL)
 			$this->comment = \App\Models\Comment::GetById($id, FALSE);
 		if (!$this->comment && $this->actionName !== 'index')
-			$this->renderNotFound();
+			$this->RenderNotFound();
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Comments extends Index
 	public function ActivationAction () {
 		$form = $this->getVirtualActivationForm();
 		$form->SubmitCsrfTokens($_POST);
-		if ($form->GetResult() !== \MvcCore\Ext\Forms\IForm::RESULT_ERRORS) {
+		if ($form->GetResult() !== \MvcCore\Ext\IForm::RESULT_ERRORS) {
 			$activate = $this->request->GetParam('activate', 'a-zA-Z');
 			$deactivate = $this->request->GetParam('deactivate', 'a-zA-Z');
 			if ($activate !== NULL) {
@@ -90,7 +90,7 @@ class Comments extends Index
 	/**
 	 * Create empty form, where to store and manage CSRF
 	 * tokens for active/deactive links in posts list.
-	 * @return \MvcCore\Ext\Form|\MvcCore\Ext\Forms\IForm
+	 * @return \MvcCore\Ext\Form
 	 */
 	protected function getVirtualActivationForm () {
 		return (new Form($this))

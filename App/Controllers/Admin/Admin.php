@@ -14,6 +14,7 @@ class Admin extends \App\Controllers\Base
 	 */
 	public function Init () {
 		parent::Init();
+		$this->application->SetDefaultControllerName('Admin\\Index');
 		// if user is not authorized, redirect to proper location and exit
 		if (!$this->user || ($this->user && !$this->user->IsAdmin())) {
 			// if post, get safe value from where the form has been submitted

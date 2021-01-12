@@ -31,5 +31,5 @@ form.post label span{display:inline-block;width:75px;text-align:right;padding-ri
 form.post input,
 form.post textarea{width:calc(100% - 15px);margin-bottom:10px;}
 form.post textarea.perex{height:50px;}
-form.post textarea.body{height:400px;}
+form.post textarea.content{height:400px;}
 form.post button.send{}

@@ -47,13 +47,13 @@ class AddComment extends \MvcCore\Ext\Form
 		if ($this->result == Forms\IForm::RESULT_SUCCESS) {
 			try {
 				$data = (object) $this->values;
-				\App\Models\Comment::AddNew(
-					$this->idPost,
-					$this->user->GetId(),
-					$data->title,
-					$data->content
-				);
-			} catch (\Exception $e) {
+				$newComment = new static;
+				$newComment->Id = $this->idPost;
+				$newComment->IdUser = $this->user->GetId();
+				$newComment->Title = $data->title;
+				$newComment->Content = $data->content;
+				$newComment->Save(TRUE);
+			} catch (\Throwable $e) {
 				\MvcCore\Debug::Log($e);
 				$this->AddError('Error when saving new comment. See more in application log.');
 			}
