@@ -18,6 +18,8 @@ class Bootstrap {
 			$app->SetDebugClass('MvcCore\Ext\Debugs\Tracy');
 		}
 
+
+		// Comment this line for PHP 8+ and Attributes anotation:
 		\MvcCore\Ext\Database\Misc\Reflection::SetAttributesAnotations(FALSE);
 
 

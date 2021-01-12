@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Front;
 
-use \MvcCore\Ext\Forms;
+use \MvcCore\Ext\Form;
 
 class Post extends Index {
 
@@ -57,7 +57,7 @@ class Post extends Index {
 	public function CommentSubmitAction () {
 		$form = $this->getCommentForm();
 		list($result/*, $values, $errors*/) = $form->Submit();
-		if ($result === Forms\IForm::RESULT_SUCCESS)
+		if ($result === Form::RESULT_SUCCESS)
 			$form->ClearSession();
 		$form->SubmittedRedirect();
 	}

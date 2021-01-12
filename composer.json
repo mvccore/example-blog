@@ -17,6 +17,7 @@
 		"mvccore/ext-form-field-text": "^5.0",
 		"mvccore/ext-form-field-numeric": "^5.0",
 		"mvccore/ext-form-field-file": "^5.0",
+		"mvccore/ext-tool-mimetype-extension": "^5.0",
 		"mvccore/ext-form-field-button": "^5.0",
 		"mvccore/ext-view-helper-assets": "^5.0",
 		"mvccore/ext-auth-basic": "^5.0",

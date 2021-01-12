@@ -40,8 +40,8 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetMustHaveMaxLength(30);*/
 	}
 
-	public function Init () {
-		parent::Init();
+	public function Init ($submit = FALSE) {
+		parent::Init($submit);
 
 		$passwordValidator = self::GetPasswordValidator();
 
@@ -49,7 +49,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 			//->SetValidators([])
 			->SetMinLength(3)
 			->SetMaxLength(100)
-			->SetRequired()
+			->SetRequired(TRUE)
 			->SetPlaceHolder('John Doe')
 			->SetName('full_name')
 			->SetLabel('Full Name');;
@@ -57,7 +57,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$userName = (new Fields\Text)
 			//->SetValidators([])
 			->SetMaxLength(100)
-			->SetRequired()
+			->SetRequired(TRUE)
 			->SetPlaceHolder('user.name')
 			->SetName('user_name')
 			->SetLabel('Login');;
@@ -65,15 +65,14 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$email = (new Fields\Email)
 			->AddValidators(new \App\Forms\UserRegistrations\EmailValidator)
 			->SetMaxLength(100)
-			->SetRequired()
+			->SetRequired(TRUE)
 			->SetPlaceHolder('username@example.com')
 			->SetLabel('Email')
 			->SetName('email');
 
 		$password1 = (new Fields\Password)
 			->AddValidators($passwordValidator)
-			->SetRequired()
-			->SetPlaceHolder('Comment content')
+			->SetRequired(TRUE)
 			->SetName('password_first')
 			->SetLabel('Password')
 			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
@@ -86,7 +85,6 @@ class UserRegistration extends \MvcCore\Ext\Form
 		$password2 = (new Fields\Password)
 			->AddValidators($passwordValidator)
 			//->SetRequired()
-			->SetPlaceHolder('Comment content')
 			->SetName('password_second')
 			->SetLabel('Password (check)')
 			/** @see https://stackoverflow.com/questions/2530/how-do-you-disable-browser-autocomplete-on-web-form-field-input-tag */
@@ -120,8 +118,9 @@ class UserRegistration extends \MvcCore\Ext\Form
 		);
 	}
 
-	public function PreDispatch() {
-		parent::PreDispatch();
+	public function PreDispatch($submit = FALSE) {
+		parent::PreDispatch($submit);
+		if (!$this->viewEnabled) return $this;
 		$recaptchaCfg = \MvcCore\Config::GetSystem()->recaptcha;
 		$this->view->useRecaptcha = $this->environment->IsProduction();
 		$this->view->recaptchaSiteKey = $recaptchaCfg->sitekey;
@@ -129,7 +128,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 
 	public function Submit (array & $rawRequestParams = []) {
 		parent::Submit($rawRequestParams);
-		if ($this->result == Forms\IForm::RESULT_SUCCESS) {
+		if ($this->result == self::RESULT_SUCCESS) {
 			$useRecaptcha = $this->environment->IsProduction();
 			$recaptchaCfg = \MvcCore\Config::GetSystem()->recaptcha;
 			try {
@@ -158,15 +157,27 @@ class UserRegistration extends \MvcCore\Ext\Form
 					}
 				}
 
-				\App\Models\User::Register(
-					$data->full_name,
-					$data->user_name,
-					$data->email,
-					$data->password_first,
-					$avatarUrl
+				$newUser = new \App\Models\User;
+				$newUser
+					->SetEmail($data->email)
+					->SetAdmin(FALSE)
+					->SetActive(TRUE)
+					->SetFullName($data->full_name)
+					->SetUserName($data->user_name)
+					->SetPasswordHash(
+						\App\Models\User::EncodePasswordToHash($data->password_first)
+					);
+				if ($avatarUrl)
+					$newUser->SetAvatarUrl($avatarUrl);
+
+				$newUser->Save(
+					TRUE, 
+					\MvcCore\IModel::PROPS_INHERIT |
+					\MvcCore\IModel::PROPS_PROTECTED
 				);
-			} catch (\Exception $e) {
-				\MvcCore\Debug::Log($e);
+
+			} catch (\Throwable $e) {
+				\MvcCore\Debug::Exception($e);
 				$this->AddError('Error when registering new user. See more in application log.');
 			}
 		}

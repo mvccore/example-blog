@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `roles` varchar(1000) DEFAULT NULL,
   `description` text DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `user_name` (`user_name`),
   UNIQUE KEY `email` (`email`),
   KEY `active` (`active`),
   KEY `admin` (`admin`),
-  KEY `user_name` (`user_name`),
   KEY `full_name` (`full_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 

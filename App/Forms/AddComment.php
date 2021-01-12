@@ -20,8 +20,8 @@ class AddComment extends \MvcCore\Ext\Form
 		return $this;
 	}
 
-	public function Init () {
-		parent::Init();
+	public function Init ($submit = FALSE) {
+		parent::Init($submit);
 
 		$title = (new Fields\Text)
 			//->SetValidators([])
@@ -44,15 +44,18 @@ class AddComment extends \MvcCore\Ext\Form
 
 	public function Submit (array & $rawRequestParams = []) {
 		parent::Submit($rawRequestParams);
-		if ($this->result == Forms\IForm::RESULT_SUCCESS) {
+		if ($this->result == self::RESULT_SUCCESS) {
 			try {
 				$data = (object) $this->values;
-				$newComment = new static;
-				$newComment->Id = $this->idPost;
+				$newComment = new \App\Models\Comment;
+
+				$newComment->IdPost = $this->idPost;
 				$newComment->IdUser = $this->user->GetId();
 				$newComment->Title = $data->title;
 				$newComment->Content = $data->content;
+
 				$newComment->Save(TRUE);
+
 			} catch (\Throwable $e) {
 				\MvcCore\Debug::Log($e);
 				$this->AddError('Error when saving new comment. See more in application log.');

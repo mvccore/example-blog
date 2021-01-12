@@ -2,8 +2,6 @@
 
 namespace App\Controllers\Front;
 
-use \MvcCore\Ext\Forms;
-
 class Auth extends \App\Controllers\Front\Front
 {
 	public function Init() {
@@ -48,7 +46,7 @@ class Auth extends \App\Controllers\Front\Front
 	public function SubmitAction () {
 		$form = $this->getRegistrationForm();
 		list ($result, $values, $errors) = $form->Submit();
-		if ($result === Forms\IForm::RESULT_SUCCESS)
+		if ($result === \MvcCore\Ext\Form::RESULT_SUCCESS)
 			$form->ClearSession();
 		$form->SubmittedRedirect();
 	}

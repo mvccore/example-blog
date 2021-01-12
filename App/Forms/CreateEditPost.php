@@ -85,7 +85,7 @@ class CreateEditPost extends \MvcCore\Ext\Form
 			$this->post = new \App\Models\Post();
 			$this->post->Created = new \DateTime('now');
 		}
-		if ($this->result === \MvcCore\Ext\IForm::RESULT_SUCCESS) {
+		if ($this->result === self::RESULT_SUCCESS) {
 			try {
 				$data = $this->values;
 				if (!$data['path']) 

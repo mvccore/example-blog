@@ -11,15 +11,43 @@ use \MvcCore\Ext\Database\{
  * @connection my57
  */
 #[Attrs\Connection('my57')]
-class User extends \MvcCore\Ext\Auths\Basics\User {
+class User 
+extends \MvcCore\Ext\Auths\Basics\User
+implements \MvcCore\Ext\Database\Model\IConstants {
 
 	use \MvcCore\Ext\Database\Model\Features;
+	//use \MvcCore\Ext\Database\Models\MySql\Features;
+	
+	/**
+	 * @column email
+	 * @keyUnique
+	 * @var string|NULL
+	 */
+	#[Attrs\Column('email'), Attrs\KeyUnique]
+	protected $email = NULL;
 
 	/**
-	 * @var string|NULL
 	 * @column avatar_url
+	 * @var string|NULL
 	 */
+	#[Attrs\Column('avatar_url')]
 	protected $avatarUrl = NULL;
+	
+	/**
+	 * @param string|NULL $email
+	 * @return \App\Models\User
+	 */
+	public function SetEmail ($email) {
+		$this->email = $email;
+		return $this;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function GetEmail () {
+		return $this->email;
+	}
 
 	/**
 	 * @param string|NULL $avatarUrl 
@@ -37,55 +65,6 @@ class User extends \MvcCore\Ext\Auths\Basics\User {
 		return $this->avatarUrl;
 	}
 
-	/**
-	 * @param string $fullName
-	 * @param string $userName
-	 * @param string $email
-	 * @param string $password
-	 * @param string $avatarUrl
-	 * @return int
-	 */
-	public static function Register (
-		$fullName, $userName, $email, $password, $avatarUrl
-	) {
-		$newId = NULL;
-		$db = self::GetConnection();
-		try {
-
-			$db->beginTransaction();
-
-			$sql = $sql = implode("\n", [
-				"INSERT INTO users (						",
-				"	active, admin, user_name, full_name, 	",
-				"	email, password_hash, avatar_url		",
-				") VALUES (									",
-				"	1, 0, :user_name, :full_name, 			",
-				"	:email, :password_hash, :avatar_url		",
-				");											",
-			]);
-			$insert = self::GetConnection()->prepare($sql);
-			$insert->execute([
-				':full_name'	 => $fullName,
-				':user_name'	 => $userName,
-				':email'		 => $email,
-				':password_hash' => \MvcCore\Ext\Auths\Basics\User::EncodePasswordToHash(
-					$password
-				),
-				':avatar_url'	=> $avatarUrl,
-			]);
-
-			$rawNewId = $db->lastInsertId();
-			if (is_numeric($rawNewId))
-				$newId = intval($rawNewId);
-
-			$db->commit();
-
-		} catch (\Exception $e) {
-			$db->rollBack();
-			throw $e;
-		}
-		return $newId;
-	}
 
 	/**
 	 * Get user model instance from database or any other users list
