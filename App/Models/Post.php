@@ -51,18 +51,18 @@ class Post extends \App\Models\Base {
 
 	/**
 	 * @column created
-	 * @format Y-m-d H:i:s, UTC
+	 * @format Y-m-d H:i:s.u, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('created'), Attrs\Format('Y-m-d H:i:s', 'UTC')]
+	#[Attrs\Column('created'), Attrs\Format('Y-m-d H:i:s.u', 'UTC')]
 	public \DateTime $Created;
 
 	/**
 	 * @column updated
-	 * @format Y-m-d H:i:s, UTC
+	 * @format Y-m-d H:i:s.u, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('updated'), Attrs\Format('Y-m-d H:i:s', 'UTC')]
+	#[Attrs\Column('updated'), Attrs\Format('Y-m-d H:i:s.u', 'UTC')]
 	public \DateTime $Updated;
 
 	/**
@@ -100,14 +100,25 @@ class Post extends \App\Models\Base {
 	 */
 	public static function GetAll ($orderCol = 'created', $orderDir = 'desc') {
 		return Statement::Prepare([
-				"SELECT								",
-				"	p.".Columns(",p.").",			",
-				"	COUNT(c.id) as comments_count	",
-				"FROM ".Table(0)." p				",
-				"LEFT OUTER JOIN ".Table(1)." c ON	",
-				"	c.id_post = p.id				",
-				"GROUP BY p.id						",
-				"ORDER BY {$orderCol} {$orderDir}	",
+				"SELECT 									",
+				"	p1.*,									",
+				"	(CASE p2.comments_count					",
+				"		WHEN NULL THEN 0					",
+				"		ELSE p2.comments_count				",
+				"	END) AS comments_count					",
+				"FROM (										",
+				"	SELECT p.".Columns(",p.")."				",
+				"	FROM ".Table(0)." p						",
+				") p1										",
+				"LEFT JOIN (								",
+				"	SELECT 									",
+				"		c.id_post, 							",
+				"		COUNT(c.id_post) AS comments_count	",
+				"	FROM ".Table(1)." c			 			",
+				"	GROUP BY c.id_post						",
+				") p2 ON									",
+				"	p1.id = p2.id_post						",
+				"ORDER BY {$orderCol} {$orderDir};			",
 			])
 			->FetchAll()
 			->ToInstances(
