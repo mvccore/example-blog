@@ -19,7 +19,7 @@ class CreateEditPost extends \MvcCore\Ext\Form
 	
 	//protected $csrfEnabled = FALSE;
 
-	public function SetPost ($post) {
+	public function SetPost (\App\Models\Post $post) {
 		$this->post = $post;
 		return $this;
 	}
@@ -59,7 +59,10 @@ class CreateEditPost extends \MvcCore\Ext\Form
 		
 		$this->AddFields($title, $path, $perex, $content, $send);
 
-		if ($this->post !== NULL) {
+		if ($this->post === NULL) {
+			$this->SetId('post_detail_new');
+		} else {
+			$this->SetId('post_detail_'.$this->post->Id);
 
 			$id = (new Fields\Hidden)
 				->SetName('id')
