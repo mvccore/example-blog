@@ -24,6 +24,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 	 */
 	public static function GetPasswordValidator () {
 		return (new \MvcCore\Ext\Forms\Validators\Password)
+
 			// dev rules:
 			->SetMustHaveMinLength(3)
 			->SetMustHaveDigits(FALSE)
@@ -31,13 +32,16 @@ class UserRegistration extends \MvcCore\Ext\Form
 			->SetMustHaveUpperCaseChars(FALSE)
 			->SetMustHaveSpecialChars(FALSE)
 			->SetMustHaveMaxLength(30);
+
+			/*
 			// production rules:
-			/*->SetMustHaveDigits(TRUE, 3)
+			->SetMustHaveDigits(TRUE, 3)
 			->SetMustHaveLowerCaseChars(TRUE, 1)
 			->SetMustHaveUpperCaseChars(TRUE, 1)
 			->SetMustHaveSpecialChars(TRUE, 2)
 			->SetMustHaveMinLength(10)
-			->SetMustHaveMaxLength(30);*/
+			->SetMustHaveMaxLength(30);
+			*/
 	}
 
 	public function Init ($submit = FALSE) {

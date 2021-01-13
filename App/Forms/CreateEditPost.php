@@ -7,7 +7,7 @@ use \MvcCore\Ext\Forms,
 
 class CreateEditPost extends \MvcCore\Ext\Form
 {
-	protected $id = 'post_detail';
+	protected $id = 'post_detail_new';
 
 	protected $cssClasses = ['theme', 'post'];
 
@@ -15,12 +15,14 @@ class CreateEditPost extends \MvcCore\Ext\Form
 
 	protected $efaultFieldsRenderMode = \MvcCore\Ext\Form::FIELD_RENDER_MODE_LABEL_AROUND;
 
-	protected $edit = NULL;
+	/** @var \App\Models\Post */
+	protected $post = NULL;
 	
 	//protected $csrfEnabled = FALSE;
 
 	public function SetPost (\App\Models\Post $post) {
 		$this->post = $post;
+		$this->SetId('post_detail_' . $this->post->Id);
 		return $this;
 	}
 
@@ -59,10 +61,7 @@ class CreateEditPost extends \MvcCore\Ext\Form
 		
 		$this->AddFields($title, $path, $perex, $content, $send);
 
-		if ($this->post === NULL) {
-			$this->SetId('post_detail_new');
-		} else {
-			$this->SetId('post_detail_'.$this->post->Id);
+		if ($this->post !== NULL) {
 
 			$id = (new Fields\Hidden)
 				->SetName('id')

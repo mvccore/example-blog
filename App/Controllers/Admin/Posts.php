@@ -111,12 +111,13 @@ class Posts extends Index {
 	 * Create form instance to create new or edit existing post.
 	 * @return \App\Forms\CreateEditPost
 	 */
-	protected function getCreateEditForm ($editForm = TRUE) {
+	protected function getCreateEditForm () {
 		$form = new \App\Forms\CreateEditPost($this);
 		$form
-			->SetPost($this->post)
 			->SetAction($this->Url(':Submit'))
 			->SetSuccessUrl($this->Url(':Index', ['absolute' => TRUE]));
+		if ($this->post !== NULL)
+			$form->SetPost($this->post);
 		return $form;
 	}
 

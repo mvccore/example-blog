@@ -23,12 +23,10 @@ class Post extends Index {
 			->SetIntlDefaultTimeFormatter(\IntlDateFormatter::MEDIUM)
 			/** @see http://php.net/strftime */
 			->SetStrftimeFormatMask('%e. %B %G, %H:%M:%S');
-		$this->view->SetHelper(
-			'FormatDateTime',
-			function ($date) use ($formateDateTime) {
-				return call_user_func_array([$formateDateTime, 'FormatDate'], func_get_args());
-			}
-		);
+		$formatDateTimeHelper = function ($date) use ($formateDateTime) {
+			return call_user_func_array([$formateDateTime, 'FormatDate'], func_get_args());
+		};
+		$this->view->SetHelper('FormatDateTime', $formatDateTimeHelper);
 	}
 	/**
 	 * Render post detail with comments.
@@ -68,12 +66,13 @@ class Post extends Index {
 	protected function getCommentForm () {
 		$params = ['path' => $this->post->Path, 'absolute' => TRUE];
 		$selfUrl = $this->Url('front_post', $params);
-		return (new \App\Forms\AddComment($this))
-			->SetId('add_cmnt_post_' . $this->post->Id)
+		$form = new \App\Forms\AddComment($this);
+		$form
 			->SetIdPost($this->post->Id)
 			->SetAction($this->Url(':CommentSubmit', $params))
 			->SetErrorUrl($selfUrl)
 			->SetSuccessUrl($selfUrl);
+		return $form;
 	}
 
 }

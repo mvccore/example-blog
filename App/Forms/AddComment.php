@@ -13,10 +13,15 @@ class AddComment extends \MvcCore\Ext\Form
 
 	protected $idPost = NULL;
 	
-	//protected $csrfEnabled = FALSE;
+	protected $csrfEnabled = TRUE; // training purposes, true by default
 
+	/**
+	 * @param int $idPost 
+	 * @return \App\Forms\AddComment|\MvcCore\Ext\Form
+	 */
 	public function SetIdPost ($idPost) {
 		$this->idPost = $idPost;
+		$this->SetId('add_cmnt_post_' . $idPost);
 		return $this;
 	}
 
@@ -24,13 +29,13 @@ class AddComment extends \MvcCore\Ext\Form
 		parent::Init($submit);
 
 		$title = (new Fields\Text)
-			//->SetValidators([])
+			//->SetValidators([]) // training purposes
 			->SetRequired()
 			->SetPlaceHolder('Comment title')
 			->SetName('title');
 
 		$content = (new Fields\Textarea)
-			//->SetValidators([])
+			//->SetValidators([]) // training purposes
 			->SetRequired()
 			->SetPlaceHolder('Comment content')
 			->SetName('content');
