@@ -2,13 +2,8 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Database\{
-	Statement, 
-	Attributes as Attrs
-};
-
-use function \MvcCore\Ext\Database\FuncHelpers\Table as Table,
-			 \MvcCore\Ext\Database\FuncHelpers\Columns as Columns;
+use \MvcCore\Ext\Models\Db\{Statement, Attrs};
+use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
 
 /** 
  * @table posts, comments
@@ -51,18 +46,18 @@ class Post extends \App\Models\Base {
 
 	/**
 	 * @column created
-	 * @format Y-m-d H:i:s.u, UTC
+	 * @format +Y-m-d H:i:s, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('created'), Attrs\Format('Y-m-d H:i:s.u', 'UTC')]
+	#[Attrs\Column('created'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
 	public \DateTime $Created;
 
 	/**
 	 * @column updated
-	 * @format Y-m-d H:i:s.u, UTC
+	 * @format +Y-m-d H:i:s, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('updated'), Attrs\Format('Y-m-d H:i:s.u', 'UTC')]
+	#[Attrs\Column('updated'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
 	public \DateTime $Updated;
 
 	/**

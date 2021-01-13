@@ -2,18 +2,13 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Database\{
-	Statement, 
-	Attributes as Attrs
-};
-
-use function \MvcCore\Ext\Database\FuncHelpers\Table as Table,
-			 \MvcCore\Ext\Database\FuncHelpers\Columns as Columns;
+use \MvcCore\Ext\Models\Db\{Statement, Attrs};
+use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
 
 /** 
- * @table comments, posts
+ * @table comments, users
  */
-#[Attrs\Table('comments', 'posts')]
+#[Attrs\Table('comments', 'users')]
 class Comment extends \App\Models\Base {
 	
 	/**
@@ -58,9 +53,9 @@ class Comment extends \App\Models\Base {
 	/** 
 	 * @var \DateTime
 	 * @column created
-	 * @format Y-m-d H:i:s.u, UTC
+	 * @format +Y-m-d H:i:s, UTC
 	 */
-	#[Attrs\Column('created'),Attrs\Format('Y-m-d H:i:s.u', 'UTC')]
+	#[Attrs\Column('created'),Attrs\Format('+Y-m-d H:i:s', 'UTC')]
 	public \DateTime $Created;
 	
 	/** 
@@ -105,12 +100,12 @@ class Comment extends \App\Models\Base {
 	) {
 		$sql = [
 			"SELECT								",
-			"	c.*,							",
+			"	c.".Columns(",c.").",			",
 			"	u.user_name,					",
 			"	u.full_name,					",
 			"	u.avatar_url					",
-			"FROM comments c					",
-			"LEFT JOIN users u ON				",
+			"FROM ".Table(0)." c				",
+			"LEFT JOIN ".Table(1)." u ON		",
 			"	c.id_user = u.id				",
 			"",// dynamic condition
 			"ORDER BY {$orderCol} {$orderDir};	",
@@ -143,16 +138,16 @@ class Comment extends \App\Models\Base {
 	 */
 	public static function GetByPostId ($idPost, $activeOnly = TRUE) {
 		$sql = [
-			"SELECT						",
-			"	c.*,					",
-			"	u.user_name,			",
-			"	u.full_name,			",
-			"	u.avatar_url			",
-			"FROM comments c			",
-			"LEFT JOIN users u ON		",
-			"	c.id_user = u.id		",
-			"WHERE c.id_post = :id_post	",
-			"ORDER BY c.created ASC;	",
+			"SELECT							",
+			"	c.".Columns(",c.").",		",
+			"	u.user_name,				",
+			"	u.full_name,				",
+			"	u.avatar_url				",
+			"FROM ".Table(0)." c			",
+			"LEFT JOIN ".Table(1)." u ON	",
+			"	c.id_user = u.id			",
+			"WHERE c.id_post = :id_post		",
+			"ORDER BY c.created ASC;		",
 		];
 		if ($activeOnly) $sql[8] .= " AND c.active = 1 ";
 		return Statement::Prepare($sql)
@@ -174,9 +169,10 @@ class Comment extends \App\Models\Base {
 	public static function GetById ($idComment, $activeOnly = TRUE) {
 		$sql = [
 			"SELECT 							",
-			"	c.*, u.user_name, u.full_name	",
-			"FROM comments c					",
-			"LEFT JOIN users u ON				",
+			"	c.".Columns(",c.").",			",
+			"	u.user_name, u.full_name		",
+			"FROM ".Table(0)." c				",
+			"LEFT JOIN ".Table(1)." u ON		",
 			"	c.id_user = u .id				",
 			"WHERE c.id = :id					",
 		];

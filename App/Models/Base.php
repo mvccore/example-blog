@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Database\Attributes as Attrs;
+use \MvcCore\Ext\Models\Db\Attrs;
 
 /** 
  * @connection my57
  */
 #[Attrs\Connection('my57')]
 class Base
-extends \MvcCore\Ext\Database\Model
-//extends \MvcCore\Ext\Database\Models\MySql
+extends \MvcCore\Ext\Models\Db\Models\MySql
+//extends \MvcCore\Ext\Models\Db\Models\SqlSrv
 {
 
 }

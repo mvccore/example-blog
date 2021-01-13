@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Database\{
-	Statement, 
-	Attributes as Attrs
-};
+use \MvcCore\Ext\Models\Db\{Statement, Attrs};
 
 /** 
  * @connection my57
@@ -13,10 +10,10 @@ use \MvcCore\Ext\Database\{
 #[Attrs\Connection('my57')]
 class User 
 extends \MvcCore\Ext\Auths\Basics\User
-implements \MvcCore\Ext\Database\Model\IConstants {
+implements \MvcCore\Ext\Models\Db\Model\IConstants {
 
-	use \MvcCore\Ext\Database\Model\Features;
-	//use \MvcCore\Ext\Database\Models\MySql\Features;
+	use \MvcCore\Ext\Models\Db\Models\MySqls\Features;
+	//use \MvcCore\Ext\Models\Db\Models\SqlSrvs\Features;
 	
 	/**
 	 * @column email
