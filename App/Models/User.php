@@ -5,16 +5,15 @@ namespace App\Models;
 use \MvcCore\Ext\Models\Db\{Statement, Attrs};
 
 /** 
- * @connection my57
+ * @table users
  */
-#[Attrs\Connection('my57')]
+#[Attrs\Table('users')]
 class User 
-extends \MvcCore\Ext\Auths\Basics\User
-implements \MvcCore\Ext\Models\Db\Model\IConstants {
+extends \App\Models\Base
+implements \MvcCore\Ext\Auths\Basics\IUser {
 
-	use \MvcCore\Ext\Models\Db\Models\MySqls\Features;
-	//use \MvcCore\Ext\Models\Db\Models\SqlSrvs\Features;
-	
+	use \MvcCore\Ext\Auths\Basics\User\Features;
+
 	/**
 	 * @column email
 	 * @keyUnique
