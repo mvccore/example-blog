@@ -17,19 +17,23 @@ class Bootstrap {
 			\MvcCore\Ext\Debugs\Tracy::$Editor = 'MSVS2019';
 			$app->SetDebugClass('MvcCore\Ext\Debugs\Tracy');
 		}
+		\MvcCore\Ext\Debugs\Tracy::Init();
 
 
 		// Comment this line for PHP 8+ and Attributes anotation:
-		\MvcCore\Ext\Database\Misc\Reflection::SetAttributesAnotations(FALSE);
-
+		\MvcCore\Ext\Models\Db\Misc\Reflection::SetAttributesAnotations(FALSE);
 
 		
+		$sysCfg = \MvcCore\Config::GetSystem();
 		$cache = \MvcCore\Ext\Caches\Redis::GetInstance([ // `default` connection to:
-			\MvcCore\Ext\ICache::CONNECTION_DATABASE => 'mvccore_blog'
+			\MvcCore\Ext\ICache::CONNECTION_NAME		=> $sysCfg->cache->storeName,
+			\MvcCore\Ext\ICache::CONNECTION_DATABASE	=> $sysCfg->cache->databaseName,
 		]);
-		\MvcCore\Ext\Cache::RegisterStore('redis', $cache, TRUE);
+		\MvcCore\Ext\Cache::RegisterStore($sysCfg->cache->storeName, $cache, TRUE);
+		if ($sysCfg->cache->enabled) 
+			$cache->Connect();
 
-
+		
 		/**
 		 * Uncomment this line before generate any assets into temporary directory, before application
 		 * packing/building, only if you want to pack application without JS/CSS/fonts/images inside
@@ -131,7 +135,7 @@ class Bootstrap {
 				'controllerAction'	=> 'Api\Soap:Posts',
 			]
 		]);
-
+		
 		return $app;
 	}
 }
