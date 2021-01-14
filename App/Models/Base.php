@@ -10,7 +10,9 @@ use \MvcCore\Ext\Models\Db\Attrs;
 #[Attrs\Connection('my57')]
 class Base
 extends \MvcCore\Ext\Models\Db\Models\MySql
+//extends \MvcCore\Ext\Models\Db\Models\SQLite
 //extends \MvcCore\Ext\Models\Db\Models\SqlSrv
+//extends \MvcCore\Ext\Models\Db\Models\PgSql
 {
 
 }
