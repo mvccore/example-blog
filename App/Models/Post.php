@@ -91,7 +91,7 @@ class Post extends \App\Models\Base {
 	 * Get all post in database as array, keyed by $post->Id.
 	 * @param string $orderCol 'created' by default.
 	 * @param string $orderDir 'desc' by default.
-	 * @return \App\Models\Post[]
+	 * @return \MvcCore\Ext\Models\Db\Readers\Streams\Iterator
 	 */
 	public static function GetAll ($orderCol = 'created', $orderDir = 'desc') {
 		return Statement::Prepare([
@@ -115,11 +115,9 @@ class Post extends \App\Models\Base {
 				"	p1.id = p2.id_post						",
 				"ORDER BY {$orderCol} {$orderDir};			",
 			])
-			->FetchAll()
+			->StreamAll()
 			->ToInstances(
-				get_called_class(), 
-				self::$defaultPropsFlags,
-				'id', 'int'
+				get_called_class(), 0, 'id', 'int'
 			);
 	}
 
@@ -168,10 +166,7 @@ class Post extends \App\Models\Base {
 				"WHERE p.path = :path				",
 			])
 			->FetchOne([':path' => $path])
-			->ToInstance(
-				get_called_class(),
-				self::$defaultPropsFlags
-			);
+			->ToInstance(get_called_class());
 	}
 
 	/**

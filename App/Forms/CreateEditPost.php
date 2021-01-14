@@ -105,7 +105,7 @@ class CreateEditPost extends \MvcCore\Ext\Form
 				$this->post->Save();
 
 			} catch (\Exception $e) {
-				\MvcCore\Debug::Log($e);
+				\MvcCore\Debug::Exception($e);
 				$this->AddError('Error when saving blog post. See more in application log.');
 			}
 		}
