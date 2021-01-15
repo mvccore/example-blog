@@ -21,7 +21,7 @@ class Bootstrap {
 
 
 		// Comment this line for PHP 8+ and Attributes anotation:
-		\MvcCore\Ext\Models\Db\Misc\Reflection::SetAttributesAnotations(FALSE);
+		\MvcCore\Tool::SetAttributesAnotations(FALSE);
 
 		
 		$sysCfg = \MvcCore\Config::GetSystem();

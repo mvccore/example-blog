@@ -10,7 +10,7 @@ class Base extends \MvcCore\Controller
 	 * @var \MvcCore\Ext\Auths\Basics\IUser
 	 */
 	protected $user = NULL;
-
+	
 	public function Init() {
 		parent::Init();
 		// when any CSRF token is outdated or not the same - sign out user by default
