@@ -17,13 +17,12 @@ class Bootstrap {
 			\MvcCore\Ext\Debugs\Tracy::$Editor = 'MSVS2019';
 			$app->SetDebugClass('MvcCore\Ext\Debugs\Tracy');
 		}
-		\MvcCore\Ext\Debugs\Tracy::Init();
 
-
-		// Comment this line for PHP 8+ and Attributes anotation:
-		\MvcCore\Tool::SetAttributesAnotations(FALSE);
+		// Uncomment this line for PHP 8+ and Attributes anotation:
+		// \MvcCore\Tool::SetAttributesAnotations(TRUE);
 
 		
+		$app->GetEnvironment()->GetName();
 		$sysCfg = \MvcCore\Config::GetSystem();
 		$cache = \MvcCore\Ext\Caches\Redis::GetInstance([ // `default` connection to:
 			\MvcCore\Ext\ICache::CONNECTION_NAME		=> $sysCfg->cache->storeName,
@@ -139,3 +138,4 @@ class Bootstrap {
 		return $app;
 	}
 }
+

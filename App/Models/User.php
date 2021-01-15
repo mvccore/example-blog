@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Models\Db\{Statement, Attrs};
+use \MvcCore\Ext\Models\Db\Attrs;
 
 /** 
  * @table users
@@ -69,7 +69,8 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	 * @return \App\Models\User|NULL
 	 */
 	public static function GetByUserName ($userName) {
-		return Statement::Prepare([
+		return self::GetConnection()
+			->Prepare([
 				"SELECT *						",
 				"FROM users u					",
 				"WHERE u.user_name = :user_name;",
@@ -89,10 +90,11 @@ implements \MvcCore\Ext\Auths\Basics\IUser {
 	 * @return \App\Models\User|NULL
 	 */
 	public static function GetByUserEmail ($email) {
-		return Statement::Prepare([
-			"SELECT *				",
-			"FROM users u			",
-			"WHERE u.email = :email;",
+		return self::GetConnection()
+			->Prepare([
+				"SELECT *				",
+				"FROM users u			",
+				"WHERE u.email = :email;",
 			])
 			->FetchOne([':email' => $email])
 			->ToInstance(

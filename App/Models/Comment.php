@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Models\Db\{Statement, Attrs};
+use \MvcCore\Ext\Models\Db\Attrs;
 use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
 
 /** 
@@ -120,7 +120,8 @@ class Comment extends \App\Models\Base {
 			$sql[count($sql) - 2] = "WHERE {$filterCol} = :val ";
 			$params[':val'] = $filterVal;
 		}
-		return Statement::Prepare($sql)
+		return self::GetConnection()
+			->Prepare($sql)
 			->FetchAll($params)
 			->ToInstances(
 				get_called_class(),
@@ -150,7 +151,8 @@ class Comment extends \App\Models\Base {
 			"ORDER BY c.created ASC;		",
 		];
 		if ($activeOnly) $sql[8] .= " AND c.active = 1 ";
-		return Statement::Prepare($sql)
+		return self::GetConnection()
+			->Prepare($sql)
 			->FetchAll([':id_post' => $idPost])
 			->ToInstances(
 				get_called_class(),
@@ -177,7 +179,8 @@ class Comment extends \App\Models\Base {
 			"WHERE c.id = :id					",
 		];
 		if ($activeOnly) $sql[5] .= " AND c.active = 1 ";
-		return Statement::Prepare($sql)
+		return self::GetConnection()
+			->Prepare($sql)
 			->FetchOne([':id' => $idComment])
 			->ToInstance(
 				get_called_class(),

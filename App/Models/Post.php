@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \MvcCore\Ext\Models\Db\{Statement, Attrs};
+use \MvcCore\Ext\Models\Db\Attrs;
 use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
 
 /** 
@@ -94,7 +94,8 @@ class Post extends \App\Models\Base {
 	 * @return \MvcCore\Ext\Models\Db\Readers\Streams\Iterator
 	 */
 	public static function GetAll ($orderCol = 'created', $orderDir = 'desc') {
-		return Statement::Prepare([
+		return self::GetConnection()
+			->Prepare([
 				"SELECT 									",
 				"	p1.*,									",
 				"	(CASE p2.comments_count					",
@@ -127,7 +128,8 @@ class Post extends \App\Models\Base {
 	 * @return \App\Models\Post|NULL
 	 */
 	public static function GetById ($id) {
-		return Statement::Prepare([
+		return self::GetConnection()
+			->Prepare([
 				"SELECT								",
 				"	p.".Columns(",p.").", (			",
 				"		SELECT COUNT(c.id)			",
@@ -153,7 +155,8 @@ class Post extends \App\Models\Base {
 	 * @return \App\Models\Post|\MvcCore\IModel|NULL
 	 */
 	public static function GetByPath ($path) {
-		return Statement::Prepare([
+		return self::GetConnection()
+			->Prepare([
 				"SELECT								",
 				"	p.".Columns(",p.").", (			",
 				"		SELECT COUNT(c.id)			",
