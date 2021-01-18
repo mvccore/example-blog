@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Attrs;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table posts, comments
@@ -27,7 +28,7 @@ class Post extends \App\Models\Base {
 	 * @var ?int
 	 */
 	#[Attrs\Column('id'), Attrs\KeyPrimary(TRUE)]
-	public ?int $Id;
+	public $Id;
 
 	/**
 	 * @column path
@@ -35,14 +36,14 @@ class Post extends \App\Models\Base {
 	 * @var ?string
 	 */
 	#[Attrs\Column('path'), Attrs\KeyUnique('path')]
-	public string $Path;
+	public $Path;
 
 	/**
 	 * @column title
 	 * @var ?string
 	 */
 	#[Attrs\Column('title')]
-	public string $Title;
+	public $Title;
 
 	/**
 	 * @column created
@@ -50,7 +51,7 @@ class Post extends \App\Models\Base {
 	 * @var \DateTime
 	 */
 	#[Attrs\Column('created'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
-	public \DateTime $Created;
+	public $Created;
 
 	/**
 	 * @column updated
@@ -58,26 +59,26 @@ class Post extends \App\Models\Base {
 	 * @var \DateTime
 	 */
 	#[Attrs\Column('updated'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
-	public \DateTime $Updated;
+	public $Updated;
 
 	/**
 	 * @column content
 	 * @var string
 	 */
 	#[Attrs\Column('content')]
-	public string $Content;
+	public $Content;
 
 	/**
 	 * @column perex
-	 * @var string
+	 * @var ?string
 	 */
 	#[Attrs\Column('perex')]
-	public ?string $Perex;
+	public $Perex;
 
 	/**
 	 * @var int|NULL
 	 */
-	public ?int $CommentsCount;
+	public $CommentsCount;
 
 
 	/** @return string */

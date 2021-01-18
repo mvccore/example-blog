@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Attrs;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\{Table, Columns};
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table comments, users
@@ -27,28 +28,28 @@ class Comment extends \App\Models\Base {
 	 * @keyPrimary true
 	 */
 	#[Attrs\Column('id'), Attrs\KeyPrimary]
-	public ?int $Id;
+	public $Id;
 	
 	/** 
 	 * @var int|NULL
 	 * @column id_post
 	 */
 	#[Attrs\Column('id_post')]
-	public int $IdPost;
+	public $IdPost;
 	
 	/** 
 	 * @var int
 	 * @column id_user
 	 */
 	#[Attrs\Column('id_user')]
-	public int $IdUser;
+	public $IdUser;
 	
 	/** 
 	 * @var bool
 	 * @column active
 	 */
 	#[Attrs\Column('active')]
-	public bool $Active;
+	public $Active;
 	
 	/** 
 	 * @var \DateTime
@@ -56,36 +57,36 @@ class Comment extends \App\Models\Base {
 	 * @format +Y-m-d H:i:s, UTC
 	 */
 	#[Attrs\Column('created'),Attrs\Format('+Y-m-d H:i:s', 'UTC')]
-	public \DateTime $Created;
+	public $Created;
 	
 	/** 
 	 * @var string
 	 * @column title
 	 */
 	#[Attrs\Column('title')]
-	public string $Title;
+	public $Title;
 	
 	/** 
 	 * @var string|NULL
 	 * @column content
 	 */
 	#[Attrs\Column('content')]
-	public ?string $Content;
+	public $Content;
 	
 	/**
 	 * @var string|NULL
 	 */
-	public ?string $UserName;
+	public $UserName;
 	
 	/**
 	 * @var string|NULL
 	 */
-	public ?string $FullName;
+	public $FullName;
 	
 	/** 
 	 * @var string|NULL
 	 */
-	public ?string $AvatarUrl;
+	public $AvatarUrl;
 
 	/**
 	 * Get all comments in database as array, keyed by $Comment->Id.
