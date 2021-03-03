@@ -111,11 +111,8 @@ class Bootstrap {
 				'method'			=> 'POST'
 			],
 			'admin_post_edit'			=> [
-				//'pattern'			=> '/admin/post/edit[/<id>]',
-				'match'				=> '#^/admin/post/edit(/(?<id>\d+))?/?$#',
-				'reverse'			=> '/admin/post/edit[/<id>]',
+				'pattern'			=> '/admin/post/edit/<id>',
 				'controllerAction'	=> 'Admin\Posts:Edit',
-				'defaults'			=> ['id' => 1,],
 				'constraints'		=> ['id' => '\d+'],
 			],
 			
