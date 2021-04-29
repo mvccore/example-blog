@@ -42,7 +42,7 @@ class Comments extends Index
 		);
 		$this->view->comments = $comments;
 
-		/** @var $abstractForm \MvcCore\Ext\Form */
+		/** @var \MvcCore\Ext\Form $abstractForm */
 		list($this->view->csrfName, $this->view->csrfValue)
 			= $this->getVirtualActivationForm()->SetUpCsrf();
 		$this->view->Js('varFoot')

@@ -38,7 +38,7 @@ class Posts extends Index {
 		$posts = \App\Models\Post::GetAll($orderCol, $orderDir);
 		$this->view->posts = $posts;
 
-		/** @var $abstractForm \MvcCore\Ext\Form */
+		/** @var \MvcCore\Ext\Form $abstractForm */
 		list($this->view->csrfName, $this->view->csrfValue)
 			= $this->getVirtualDeleteForm()->SetUpCsrf();
 		$this->view->Js('varFoot')

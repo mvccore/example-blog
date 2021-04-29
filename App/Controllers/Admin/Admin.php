@@ -39,7 +39,7 @@ class Admin extends \App\Controllers\Base
 	}
 	
 	protected function preDispatchSetUpViewHelpers () {
-		/** @var $formateDate \MvcCore\Ext\Views\Helpers\FormatDateHelper */
+		/** @var \MvcCore\Ext\Views\Helpers\FormatDateHelper $formateDate */
 		$formateDate = $this->view->GetHelper('FormatDate');
 		$formateDate
 			->SetIntlDefaultDateFormatter(\IntlDateFormatter::SHORT)
