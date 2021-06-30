@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Attrs;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table comments, users
@@ -17,10 +17,10 @@ class Comment extends \App\Models\Base {
 	 * and default flags for any other selected data to init into properties.
 	 * @var int
 	 */
-	protected static $defaultPropsFlags = (
+	protected static $defaultPropsFlags = 144;/*( // PHP 5.4 compatible
 		self::PROPS_PUBLIC | 
 		self::PROPS_CONVERT_UNDERSCORES_TO_PASCALCASE
-	);
+	);*/
 
 	/**
 	 * @var int
@@ -101,12 +101,12 @@ class Comment extends \App\Models\Base {
 	) {
 		$sql = [
 			"SELECT								",
-			"	c.".Columns(",c.").",			",
+			"	c.*,							",
 			"	u.user_name,					",
 			"	u.full_name,					",
 			"	u.avatar_url					",
-			"FROM ".Table(0)." c				",
-			"LEFT JOIN ".Table(1)." u ON		",
+			"FROM comments c					",
+			"LEFT JOIN users u ON				",
 			"	c.id_user = u.id				",
 			"",// dynamic condition
 			"ORDER BY {$orderCol} {$orderDir};	",
@@ -141,12 +141,12 @@ class Comment extends \App\Models\Base {
 	public static function GetByPostId ($idPost, $activeOnly = TRUE) {
 		$sql = [
 			"SELECT							",
-			"	c.".Columns(",c.").",		",
+			"	c.*,						",
 			"	u.user_name,				",
 			"	u.full_name,				",
 			"	u.avatar_url				",
-			"FROM ".Table(0)." c			",
-			"LEFT JOIN ".Table(1)." u ON	",
+			"FROM comments c				",
+			"LEFT JOIN users u ON			",
 			"	c.id_user = u.id			",
 			"WHERE c.id_post = :id_post		",
 			"ORDER BY c.created ASC;		",
@@ -172,10 +172,10 @@ class Comment extends \App\Models\Base {
 	public static function GetById ($idComment, $activeOnly = TRUE) {
 		$sql = [
 			"SELECT 							",
-			"	c.".Columns(",c.").",			",
+			"	c.*,							",
 			"	u.user_name, u.full_name		",
-			"FROM ".Table(0)." c				",
-			"LEFT JOIN ".Table(1)." u ON		",
+			"FROM comments c					",
+			"LEFT JOIN users u ON				",
 			"	c.id_user = u .id				",
 			"WHERE c.id = :id					",
 		];

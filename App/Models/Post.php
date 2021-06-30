@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use \MvcCore\Ext\Models\Db\Attrs;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
-use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Table;
+//use function \MvcCore\Ext\Models\Db\FuncHelpers\Columns;
 
 /** 
  * @table posts, comments
@@ -17,10 +17,10 @@ class Post extends \App\Models\Base {
 	 * and default flags for any other selected data to init into properties.
 	 * @var int
 	 */
-	protected static $defaultPropsFlags = (
+	protected static $defaultPropsFlags = 144;/*( // PHP 5.4 compatible
 		self::PROPS_PUBLIC | 
 		self::PROPS_CONVERT_UNDERSCORES_TO_PASCALCASE
-	);
+	);*/
 
 	/** 
 	 * @column id
@@ -104,14 +104,14 @@ class Post extends \App\Models\Base {
 				"		ELSE p2.comments_count				",
 				"	END) AS comments_count					",
 				"FROM (										",
-				"	SELECT p.".Columns(",p.")."				",
-				"	FROM ".Table(0)." p						",
+				"	SELECT p.*								",
+				"	FROM posts p							",
 				") p1										",
 				"LEFT JOIN (								",
 				"	SELECT 									",
 				"		c.id_post, 							",
 				"		COUNT(c.id_post) AS comments_count	",
-				"	FROM ".Table(1)." c			 			",
+				"	FROM comments c			 				",
 				"	GROUP BY c.id_post						",
 				") p2 ON									",
 				"	p1.id = p2.id_post						",
@@ -132,14 +132,14 @@ class Post extends \App\Models\Base {
 		return self::GetConnection()
 			->Prepare([
 				"SELECT								",
-				"	p.".Columns(",p.").", (			",
+				"	p.*, (							",
 				"		SELECT COUNT(c.id)			",
-				"		FROM ".Table(1)." c			",
+				"		FROM comments c				",
 				"		WHERE						",
 				"			c.id_post = p.id AND	",
 				"			c.active = 1			",
 				"	) AS comments_count				",
-				"FROM ".Table(0)." p				",
+				"FROM posts p						",
 				"WHERE p.id = :id					",
 			])
 			->FetchOne([':id' => $id])
@@ -159,14 +159,14 @@ class Post extends \App\Models\Base {
 		return self::GetConnection()
 			->Prepare([
 				"SELECT								",
-				"	p.".Columns(",p.").", (			",
+				"	p.*, (							",
 				"		SELECT COUNT(c.id)			",
-				"		FROM ".Table(1)." c			",
+				"		FROM comments c				",
 				"		WHERE						",
 				"			c.id_post = p.id AND	",
 				"			c.active = 1			",
 				"	) AS comments_count				",
-				"FROM ".Table(0)." p				",
+				"FROM posts p						",
 				"WHERE p.path = :path				",
 			])
 			->FetchOne([':path' => $path])

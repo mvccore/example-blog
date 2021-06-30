@@ -33,13 +33,13 @@ class Soap extends \MvcCore\Controller
 
 	public function PostsAction () {
 		$server = new \SoapServer($this->getWsdlFullPath());
-		$server->setClass(\App\Controllers\Api\Services\Posts::class);
+		$server->setClass('\App\Controllers\Api\Services\Posts');
 		$server->handle();
 	}
 
 	public function CommentsAction () {
 		$server = new \SoapServer($this->getWsdlFullPath());
-		$server->setClass(\App\Controllers\Api\Services\Comments::class);
+		$server->setClass('\App\Controllers\Api\Services\Comments');
 		$server->handle();
 	}
 }
