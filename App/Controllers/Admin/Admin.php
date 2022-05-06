@@ -42,10 +42,10 @@ class Admin extends \App\Controllers\Base
 		/** @var \MvcCore\Ext\Views\Helpers\FormatDateHelper $formateDate */
 		$formateDate = $this->view->GetHelper('FormatDate');
 		$formateDate
-			->SetIntlDefaultDateFormatter(\IntlDateFormatter::SHORT)
-			->SetIntlDefaultTimeFormatter(\IntlDateFormatter::SHORT)
+			->SetDefaultIntlDateType(\IntlDateFormatter::SHORT)
+			->SetDefaultIntlTimeType(\IntlDateFormatter::SHORT)
 			/** @see http://php.net/strftime */
-			->SetStrftimeFormatMask('%e. %B %G');
+			->SetDefaultFormatMask('%e. %B %G');
 	}
 
 	protected function preDispatchSetUpAssetsAdmin () {

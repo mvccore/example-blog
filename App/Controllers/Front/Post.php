@@ -19,10 +19,10 @@ class Post extends Index {
 		$this->view->post = $this->post;
 
 		$formateDateTime = (new \MvcCore\Ext\Views\Helpers\FormatDateHelper)
-			->SetIntlDefaultDateFormatter(\IntlDateFormatter::MEDIUM)
-			->SetIntlDefaultTimeFormatter(\IntlDateFormatter::MEDIUM)
+			->SetDefaultIntlDateType(\IntlDateFormatter::MEDIUM)
+			->SetDefaultIntlTimeType(\IntlDateFormatter::MEDIUM)
 			/** @see http://php.net/strftime */
-			->SetStrftimeFormatMask('%e. %B %G, %H:%M:%S');
+			->SetDefaultFormatMask('%e. %B %G, %H:%M:%S');
 		$formatDateTimeHelper = function ($date) use ($formateDateTime) {
 			return call_user_func_array([$formateDateTime, 'FormatDate'], func_get_args());
 		};
