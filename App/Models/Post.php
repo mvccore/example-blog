@@ -47,18 +47,18 @@ class Post extends \App\Models\Base {
 
 	/**
 	 * @column created
-	 * @format +Y-m-d H:i:s, UTC
+	 * @formatArgs +Y-m-d H:i:s, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('created'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
+	#[Attrs\Column('created'), Attrs\FormatArgs('+Y-m-d H:i:s', 'UTC')]
 	public $Created;
 
 	/**
 	 * @column updated
-	 * @format +Y-m-d H:i:s, UTC
+	 * @formatArgs +Y-m-d H:i:s, UTC
 	 * @var \DateTime
 	 */
-	#[Attrs\Column('updated'), Attrs\Format('+Y-m-d H:i:s', 'UTC')]
+	#[Attrs\Column('updated'), Attrs\FormatArgs('+Y-m-d H:i:s', 'UTC')]
 	public $Updated;
 
 	/**

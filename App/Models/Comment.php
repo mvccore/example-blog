@@ -54,9 +54,9 @@ class Comment extends \App\Models\Base {
 	/** 
 	 * @var \DateTime
 	 * @column created
-	 * @format +Y-m-d H:i:s, UTC
+	 * @formatArgs +Y-m-d H:i:s, UTC
 	 */
-	#[Attrs\Column('created'),Attrs\Format('+Y-m-d H:i:s', 'UTC')]
+	#[Attrs\Column('created'),Attrs\FormatArgs('+Y-m-d H:i:s', 'UTC')]
 	public $Created;
 	
 	/** 
