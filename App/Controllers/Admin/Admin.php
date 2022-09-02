@@ -43,9 +43,7 @@ class Admin extends \App\Controllers\Base
 		$formateDate = $this->view->GetHelper('FormatDate');
 		$formateDate
 			->SetDefaultIntlDateType(\IntlDateFormatter::SHORT)
-			->SetDefaultIntlTimeType(\IntlDateFormatter::SHORT)
-			/** @see http://php.net/strftime */
-			->SetDefaultFormatMask('%e. %B %G');
+			->SetDefaultIntlTimeType(\IntlDateFormatter::SHORT);
 	}
 
 	protected function preDispatchSetUpAssetsAdmin () {
