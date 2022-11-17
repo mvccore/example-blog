@@ -125,7 +125,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 	public function PreDispatch($submit = FALSE) {
 		parent::PreDispatch($submit);
 		if (!$this->viewEnabled) return $this;
-		$recaptchaCfg = \MvcCore\Config::GetSystem()->recaptcha;
+		$recaptchaCfg = \MvcCore\Config::GetConfigSystem()->recaptcha;
 		$this->view->useRecaptcha = $this->environment->IsProduction();
 		$this->view->recaptchaSiteKey = $recaptchaCfg->sitekey;
 	}
@@ -134,7 +134,7 @@ class UserRegistration extends \MvcCore\Ext\Form
 		parent::Submit($rawRequestParams);
 		if ($this->result == self::RESULT_SUCCESS) {
 			$useRecaptcha = $this->environment->IsProduction();
-			$recaptchaCfg = \MvcCore\Config::GetSystem()->recaptcha;
+			$recaptchaCfg = \MvcCore\Config::GetConfigSystem()->recaptcha;
 			try {
 				if ($useRecaptcha) 
 					$this->submitRecaptcha(
