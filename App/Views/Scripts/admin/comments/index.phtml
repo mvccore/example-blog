@@ -53,10 +53,10 @@
 				</td>
 				<td class="left nowrap">
 					<a 
-					   title="<?=$comment->Title?>" 
+					   title="<?=$this->EscapeAttr($comment->Title)?>" 
 					   href="<?=$url(':Detail', ['id'	=> $comment->Id])?>"
 					>
-						<?=$this->Truncate($comment->Title, 30)?>
+						<?=$this->Escape($this->Truncate($comment->Title, 30))?>
 					</a>
 				</td>
 				<td class="right">
@@ -65,10 +65,10 @@
 				</td>
 				<td class="left nowrap">
 					<a href="<?=$this->Url('self',['filter'=>'user_name','value'=>$comment->UserName])?>"
-					><?=$comment->FullName?></a>
+					><?=$this->Escape($comment->FullName)?></a>
 				</td>
 				<td class="wrap">
-					<?=$this->Truncate($comment->Content, 100)?>
+					<?=$this->Escape($this->Truncate($comment->Content, 100))?>
 				</td>
 				<td class="left">
 					<?=$this->FormatDate($comment->Created)?>
@@ -80,9 +80,9 @@
 						<input type="hidden" name="<?=$csrfName?>" value="<?=$csrfValue?>" />
 						<input type="hidden" name="id" value="<?=$comment->Id?>" />
 						<?php if ($comment->Active): ?>
-						<input type="submit" name="deactivate" value="Deactivate" />
+							<input type="submit" name="deactivate" value="Deactivate" />
 						<?php else: ?>
-						<input type="submit" name="activate" value="Activate" />
+							<input type="submit" name="activate" value="Activate" />
 						<?php endif; ?>
 					</form>)
 				</td>

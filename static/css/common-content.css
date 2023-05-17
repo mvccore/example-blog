@@ -22,3 +22,12 @@ form.signin input{width:200px;margin:5px auto;}
 
 div.signin-link{margin:0 25px 10px 25px;text-align:right;color:#fff;}
 div.signin-link a{text-align:right;color:#fff;border-bottom-color:#fff;}
+
+form.activation input[type=submit],
+form.activation input[type=submit]:hover,
+form.activation input[type=submit]:focus,
+form.activation input[type=submit]:active,
+form.delete input[type=submit],
+form.delete input[type=submit]:hover,
+form.delete input[type=submit]:focus,
+form.delete input[type=submit]:active{background:transparent !important;padding:0 1px !important;height:auto !important;font-weight: inherit !important;}

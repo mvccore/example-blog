@@ -11,7 +11,7 @@
 
 Active: <?=($comment->Active ? 'Yes' : 'No')?><br />
 Created: <?=$this->FormatDate($comment->Created)?><br />
-User: <?=$comment->FullName ?><br />
-Title: <code><?=$comment->Title?></code><br />
+User: <?=$this->Escape($comment->FullName)?><br />
+Title: <code><?=$this->Escape($comment->Title)?></code><br />
 Content: <br />
-<textarea cols="115" rows="20"><?=$comment->Content?></textarea>
+<textarea cols="115" rows="20"><?=$this->Escape($comment->Content)?></textarea>

@@ -4,14 +4,14 @@
 	/** @var \App\Models\Comment $comment */
 ?>
 
-<h1><?=$post->Title?></h1>
+<h1><?=$this->Escape($post->Title)?></h1>
 
 <?php if ($post->Updated > $post->Created): ?>
 	<i>updated: <?=$this->FormatDate($post->Updated)?></i>,
 <?php endif; ?>
 <i>created: <?=$this->FormatDate($post->Created)?></i>
 
-<p><?=$post->Content ?></p>
+<p><?=$this->Escape($post->Content)?></p>
 
 <hr />
 <?php if ($this->user): ?>
@@ -39,12 +39,12 @@
 					<?php if ($comment->AvatarUrl): ?>
 						<img src="<?=$comment->AvatarUrl?>" 
 							 height="30" width="auto" 
-							 alt="<?=$comment->UserName?>" />
+							 alt="<?=$this->EscapeAttr($comment->UserName)?>" />
 					<?php endif; ?>
-					<i><?=$this->FormatDateTime($comment->Created)?></i> by <b><?=$comment->UserName?></b>
+					<i><?=$this->FormatDate($comment->Created)?></i> by <b><?=$this->Escape($comment->UserName)?></b>
 				</div>
-				<h4><?=$comment->Title?></h4>
-				<p><?=$comment->Content?></p>
+				<h4><?=$this->Escape($comment->Title)?></h4>
+				<p><?=$this->Escape($comment->Content)?></p>
 			</div>
 		<?php endforeach; ?>
 	</div>

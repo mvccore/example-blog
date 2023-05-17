@@ -41,13 +41,13 @@
 				</td>
 				<td class="wrap">
 					<a 
-						title="<?=$post->Title?>"
+						title="<?=$this->EscapeAttr($post->Title)?>"
 						href="<?=$url(':Edit', ['id' => $post->Id])?>">
-						<?=$this->Truncate($post->Title, 80)?>
+						<?=$this->Escape($this->Truncate($post->Title, 80))?>
 					</a>
-					<div class="perex"><?php echo $post->Perex 
+					<div class="perex"><?php echo $this->Escape($post->Perex !== NULL
 					   ? $this->Truncate($post->Perex, 150)
-					   : $this->Truncate($post->Content, 150);
+					   : $this->Truncate($post->Content, 150));
 					?></div>
 				</td>
 				<td class="right">

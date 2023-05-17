@@ -19,10 +19,10 @@
 			
 			<article class="post">
 				<i><?=$this->FormatDate($post->Created)?></i>
-				<h2><a href="<?=$post->Url();?>"><?=$post->Title?></a></h2>
-				<p><?php echo $post->Perex 
+				<h2><a href="<?=$post->Url();?>"><?=$this->Escape($post->Title)?></a></h2>
+				<p><?php echo $this->Escape($post->Perex !== NULL
 				   ? $post->Perex 
-				   : $this->Truncate($post->Content, 100);
+				   : $this->Truncate($post->Content, 100));
 				?></p>
 			</article>
 
