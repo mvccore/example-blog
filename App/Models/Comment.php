@@ -23,7 +23,7 @@ class Comment extends \App\Models\Base {
 	);*/
 
 	/**
-	 * @var int
+	 * @var int?
 	 * @column id
 	 * @keyPrimary true
 	 */
