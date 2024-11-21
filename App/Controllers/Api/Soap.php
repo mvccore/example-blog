@@ -27,8 +27,8 @@ class Soap extends \MvcCore\Controller
 
 	protected function getWsdlFullPath () {
 		$wsdlName = $this->actionName;
-		$appRoot = $this->request->GetAppRoot();
-		return $appRoot . "/App/{$wsdlName}.wsdl";
+		$appPathAbs = $this->request->GetPathApp(TRUE);
+		return $appPathAbs . "/{$wsdlName}.wsdl";
 	}
 
 	public function PostsAction () {

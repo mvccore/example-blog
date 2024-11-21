@@ -151,13 +151,13 @@ class UserRegistration extends \MvcCore\Ext\Form
 				) {
 					$avatarFile = $data->avatar_image[0];
 					if ($avatarFile->error === 0) {
-						$targetRelativePath = '/Var/Avatars/' . $avatarFile->name;
+						$targetRelativePath = $this->application->GetPathVar(FALSE) . '/Avatars/' . $avatarFile->name;
 						$moved = move_uploaded_file(
 							$avatarFile->tmpFullPath,
-							$this->request->GetAppRoot() . $targetRelativePath
+							$this->application->GetPathAppRoot() . mb_substr($targetRelativePath, 1)
 						);
 						if ($moved) 
-							$avatarUrl = $this->request->GetDomainUrl() . $targetRelativePath;
+							$avatarUrl = $this->request->GetDomainUrl() . mb_substr($targetRelativePath, 1);
 					}
 				}
 

@@ -47,7 +47,7 @@ class Admin extends \App\Controllers\Base
 	}
 
 	protected function preDispatchSetUpAssetsAdmin () {
-		$static = self::$staticPath;
+		$static = $this->application->GetPathStatic();
 		$this->view->Css('varHead')
 			->AppendRendered($static . '/css/admin.css');
 		$this->view->Js('varFoot')

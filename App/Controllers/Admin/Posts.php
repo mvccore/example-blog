@@ -42,7 +42,7 @@ class Posts extends Index {
 		list($this->view->csrfName, $this->view->csrfValue)
 			= $this->getVirtualDeleteForm()->SetUpCsrf();
 		$this->view->Js('varFoot')
-			->Prepend(self::$staticPath . '/js/List.js');
+			->Prepend($this->application->GetPathStatic() . '/js/List.js');
 
 		$defaultOrder = $orderDir == 'desc';
 		$this->view->order = $orderCol;

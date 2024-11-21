@@ -30,7 +30,7 @@ class Front extends \App\Controllers\Base
 	}
 
 	protected function preDispatchSetUpAssetsFront () {
-		$static = self::$staticPath;
+		$static = $this->application->GetPathStatic();
 		$this->view->Css('varHead')
 			->AppendRendered($static . '/css/front.css');
 		$this->view->Js('varFoot')
